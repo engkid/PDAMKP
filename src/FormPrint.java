@@ -2,6 +2,7 @@
 import classpdam.KoneksiDatabase;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.image.BufferedImage;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +13,10 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import java.text.*;
 import java.awt.print.*;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -83,6 +88,14 @@ public class FormPrint extends javax.swing.JFrame {
 
     public FormPrint() {
         initComponents();
+        this.setTitle("Laporan Absen");
+         ClassLoader cl = this.getClass().getClassLoader();
+        try {
+            BufferedImage image = ImageIO.read(cl.getResource("image/marketing 40x.png"));
+            this.setIconImage(image);
+        } catch (IOException ex) {
+            Logger.getLogger(Absensi.class.getName()).log(Level.SEVERE, null, ex);
+        }
         defaultSQL = "SELECT pegawai.NIP, "
                 + "pegawai.namapegawai, "
                 + "jabatan.jabatan, "
@@ -98,7 +111,7 @@ public class FormPrint extends javax.swing.JFrame {
         panelprint.setBackground(Color.white);
         tableprint.setModel(model);
         loadData(defaultSQL);
-        loadDataNIP();
+        loadDataKantor();
         usedSQL = "SELECT pegawai.NIP, pegawai.namapegawai, jabatan.jabatan, kantor.namakantor, absenklr.tglklr, absenklr.jamklr,absenklr.statusklr, absenklr.ket               from pegawai,jabatan,absenklr,kantor where pegawai.NIP = absenklr.NIP\n"
                 + "and absenklr.kdjabatan = jabatan.kdjabatan and\n"
                 + "kantor.kdkantor = absenklr.kdkantor";
@@ -251,7 +264,7 @@ public class FormPrint extends javax.swing.JFrame {
         }
     }
 
-    public void loadDataNIP() {
+    public void loadDataKantor() {
         try {
             this.cbNIP.removeAllItems();
             Connection c = KoneksiDatabase.getKoneksi();
@@ -287,7 +300,6 @@ public class FormPrint extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         checkKeluar = new javax.swing.JCheckBox();
-        cbStatus = new javax.swing.JComboBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -310,7 +322,7 @@ public class FormPrint extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tableprint);
 
-        jLabel1.setText("Filter By NIP :");
+        jLabel1.setText("Filter By Kantor :");
 
         cbNIP.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -332,8 +344,6 @@ public class FormPrint extends javax.swing.JFrame {
             }
         });
 
-        cbStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ONTIME", "EARLY", "LATE", "OTHER" }));
-
         javax.swing.GroupLayout panelprintLayout = new javax.swing.GroupLayout(panelprint);
         panelprint.setLayout(panelprintLayout);
         panelprintLayout.setHorizontalGroup(
@@ -351,12 +361,9 @@ public class FormPrint extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(checkKeluar)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelprintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(panelprintLayout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel2))
-                    .addComponent(cbStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tglawal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -378,9 +385,7 @@ public class FormPrint extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelprintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(checkKeluar)
-                    .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(checkKeluar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 967, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -531,7 +536,6 @@ public class FormPrint extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbNIP;
-    private javax.swing.JComboBox cbStatus;
     private javax.swing.JCheckBox checkKeluar;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

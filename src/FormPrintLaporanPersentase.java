@@ -1,11 +1,16 @@
 
 import classpdam.KoneksiDatabase;
 import classpdam.class_pegawai;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.MessageFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -46,6 +51,14 @@ public class FormPrintLaporanPersentase extends javax.swing.JFrame {
 
     public FormPrintLaporanPersentase() {
         initComponents();
+        this.setTitle("Persentase Kehadiran");
+         ClassLoader cl = this.getClass().getClassLoader();
+        try {
+            BufferedImage image = ImageIO.read(cl.getResource("image/marketing 40x.png"));
+            this.setIconImage(image);
+        } catch (IOException ex) {
+            Logger.getLogger(Absensi.class.getName()).log(Level.SEVERE, null, ex);
+        }
         loadData2();
         tabel.setModel(model);
     }

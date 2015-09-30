@@ -83,7 +83,7 @@ public class Absensi extends javax.swing.JFrame {
      */
     public Absensi() {
         initComponents();
-        this.setTitle("Aplikasi Absensi PDAM Garut");
+        this.setTitle("Aplikasi Absensi PDAM Garut 1.0");
          ClassLoader cl = this.getClass().getClassLoader();
         try {
             BufferedImage image = ImageIO.read(cl.getResource("image/marketing 40x.png"));

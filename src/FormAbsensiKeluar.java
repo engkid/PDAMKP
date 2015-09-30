@@ -2,6 +2,8 @@
 import classpdam.KoneksiDatabase;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +16,9 @@ import javax.swing.table.DefaultTableModel;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -72,6 +77,14 @@ public class FormAbsensiKeluar extends javax.swing.JFrame {
      */
     public FormAbsensiKeluar() {
         initComponents();
+        this.setTitle("Absen Keluar");
+         ClassLoader cl = this.getClass().getClassLoader();
+        try {
+            BufferedImage image = ImageIO.read(cl.getResource("image/marketing 40x.png"));
+            this.setIconImage(image);
+        } catch (IOException ex) {
+            Logger.getLogger(Absensi.class.getName()).log(Level.SEVERE, null, ex);
+        }
         defaultSQL = "SELECT pegawai.NIP, pegawai.namapegawai, jabatan.jabatan,"
                 + "                kantor.namakantor, absenklr.tglklr, absenklr.jamklr, absenklr.statusklr, absenklr.ket"
                 + "                FROM pegawai, kantor, absenklr, jabatan"
